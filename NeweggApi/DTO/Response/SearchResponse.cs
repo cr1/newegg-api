@@ -63,15 +63,6 @@
         public string Keyword { get; set; }
     }
 
-    public class Productgroup
-    {
-        public object GroupName { get; set; }
-        public object SeeAllNavigation { get; set; }
-        public Productdeal[] ProductDeals { get; set; }
-        public Pageinfo PageInfo { get; set; }
-        public Coremetricsinfo CoremetricsInfo { get; set; }
-    }
-
     public class Pageinfo
     {
         public int TotalCount { get; set; }

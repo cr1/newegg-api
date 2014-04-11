@@ -4,7 +4,7 @@ namespace NeweggApi.DTO.Request
 {
     public class SearchQuery : ApiRequest
     {
-        public SearchQuery() : base("/Search.egg/Query", HttpMethod.Post)
+        public SearchQuery() : base("Search.egg/Query", HttpMethod.Post)
         {
             PageNumber = 1;
             NodeId = -1;

@@ -2,6 +2,7 @@
 using NeweggApi.DTO.Request;
 using NeweggApi.DTO.Response;
 using NeweggApi.Http;
+using NeweggApi.Extensions;
 
 namespace NeweggApi
 {
@@ -10,20 +11,25 @@ namespace NeweggApi
         static void Main(string[] args)
         {
             Console.WriteLine("Enter your search keyword");
+
+            //var storeQuery = new StoreQuery(StoreRequestType.Content);
+            //var results = ApiCall.Send<StoreContentResponse>(storeQuery);
+            //Console.ReadLine();
+
             var search = new SearchQuery() {Keyword = Console.ReadLine()};
             var searchResponse = ApiCall.Send<SearchResponse>(search);
             if (searchResponse.ProductGroups[0].PageInfo.TotalCount > 0)
             {
                 var item = searchResponse.ProductGroups[0].ProductDeals[0];
                 var itemNumber = item.ItemNumber;
-                Console.WriteLine("Top Result: {0} ({1})", item.Title, item.ItemNumber);
-                var productSpecs = new ProductQuery(itemNumber, RequestType.Specification);
-                var productDetail = new ProductQuery(itemNumber, RequestType.Detail);
-                var productReviews = new ProductQuery(itemNumber, RequestType.ReviewsInfo);
+                Console.WriteLine("Top Result: {0} ({1})", item.Title, item.FinalPrice);
+                var productSpecs = new ProductQuery(itemNumber, ProductRequestType.Specification);
+                var productDetail = new ProductQuery(itemNumber, ProductRequestType.Detail);
+                var productReviews = new ProductQuery(itemNumber, ProductRequestType.ReviewsInfo);
                 var specsResponse = ApiCall.Send<ProductSpecificationResponse>(productSpecs);
                 if (specsResponse.NeweggItemNumber == item.NeweggItemNumber)
                 {
-                    Console.WriteLine("{0} : {1}", specsResponse.SpecificationGroupList[0].SpecificationPairList[0].Key, specsResponse.SpecificationGroupList[0].SpecificationPairList[0].Value);
+                    Console.WriteLine("Brand: {0} : Model: {1}", specsResponse.GetSpecificationValue("Brand"), specsResponse.GetSpecificationValue("Model"));
                 }
                 var detailResponse = ApiCall.Send<ProductDetailResponse>(productDetail);
                 if (detailResponse.Basic.ItemNumber == item.ItemNumber) 
