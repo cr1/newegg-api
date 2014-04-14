@@ -1,4 +1,6 @@
-﻿namespace NeweggApi.DTO.Response
+﻿using System.Linq;
+
+namespace NeweggApi.DTO.Response
 {
 
     public class SearchResponse
@@ -13,6 +15,10 @@
         public bool CanAdvanceSearch { get; set; }
         public int MasterComboStoreId { get; set; }
         public Productgroup[] ProductGroups { get; set; }
+        public bool HasResults()
+        {
+            return ProductGroups.Any(p => p.PageInfo.TotalCount > 0);
+        }
     }
 
     public class Sortoption

@@ -18,7 +18,7 @@ namespace NeweggApi
 
             var search = new SearchQuery() {Keyword = Console.ReadLine()};
             var searchResponse = ApiCall.Send<SearchResponse>(search);
-            if (searchResponse.ProductGroups[0].PageInfo.TotalCount > 0)
+            if (searchResponse.HasResults())
             {
                 var item = searchResponse.ProductGroups[0].ProductDeals[0];
                 var itemNumber = item.ItemNumber;
